@@ -16,8 +16,35 @@ Repository : DB쪽 관련 테스트
 
 ---
 
-TestCode 작성시엔 @AutoWired로 DI를 시켜주세요.
--
+- TestCode 작성시엔 @AutoWired로 DI를 시켜주세요.
 
+어노테이션 정리
+-
 @DataJpaTest : DB와 관련된 컴포넌트만 메모리에 로딩
 
+# TestCode 3요소
+
+given : 데이터 준비
+
+stub : ??
+
+when : 테스트 실행
+
+then(verify) : 테스트 검증
+
+---
+
+create
+-
+
+1. Client가 data를 Controller로 request를 함
+2. Controller가 받은 요청을 DTO class에 담아서 Service에게 넘김
+3. Service는 전달받은 DTO객체를 Entity로 변환해서 Repository에게 전달
+4. save() 메서드 호출해서 DB저장
+
+DB저장 후
+-
+
+1. primary key 생성(id 생성완료)
+2. save 메서드가 DB에 저장된 Entity를 return (db 데이터와 동기화된 데이터)
+3. 
