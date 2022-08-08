@@ -22,6 +22,11 @@ Repository : DB쪽 관련 테스트
 -
 @DataJpaTest : DB와 관련된 컴포넌트만 메모리에 로딩
 
+@BeforeAll : 테스트 시작전에 한번만 실행
+
+@BeforeEach : 각 테스트 시작전에 한번씩 실행
+- 전체 Test Code가 아닌 Test Code 별로 트랜잭션이 돈다. 
+
 # TestCode 3요소
 
 given : 데이터 준비
@@ -47,4 +52,6 @@ DB저장 후
 
 1. primary key 생성(id 생성완료)
 2. save 메서드가 DB에 저장된 Entity를 return (db 데이터와 동기화된 데이터)
-3. 
+
+---
+
