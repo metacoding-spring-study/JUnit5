@@ -5,8 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,6 +86,36 @@ class BookRepositoryTest {
     }
 
     // 4. 책 수정
+    @Test
+    @DisplayName("책 수정")
+    public void book_modify_test() {
+        // given
+        String title = "junit5";
+        String author = "겟인데어";
+
+        // when
+//        Book bookPS = bookRepository.findById(1L).get();
+        Book bookPS = bookRepository.findById(3L).get();
+
+        // then
+        assertEquals(title, bookPS.getTitle());
+        assertEquals(author, bookPS.getAuthor());
+
+    }
 
     // 5. 책 삭제
+    @Sql("classpath:db/tableInit.sql")
+    @Test
+    @DisplayName("책 삭제")
+    public void book_delete_test() {
+        // given
+        Long id = 1L;
+
+        // when
+        bookRepository.deleteById(id);
+
+        // then
+        assertFalse(bookRepository.findById(id).isPresent()); // 삭제를 했기때문에 값이 없어야 test 성
+
+    }
 }
