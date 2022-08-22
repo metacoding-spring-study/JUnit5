@@ -28,12 +28,15 @@ class BookRepositoryTest {
                 .title(title)
                 .build();
         bookRepository.save(javaBook);
+
+        bookRepository.findAll().forEach(book -> System.out.println("setup id : " + book.getId()));
     }
 
     // 1. 책 등록
     @Test
     @DisplayName("책 등록")
     public void book_save_test() {
+        System.out.println("1번 메서드 시작");
         // given (데이터 준비) : 클라이언트에게 받을 데이터를 내가 만들어줌.
         String title = "junit5";
         String author = "메타코딩";
@@ -55,6 +58,7 @@ class BookRepositoryTest {
     @Test
     @DisplayName("책 목록 보기")
     public void book_findAll_test() {
+        System.out.println("2번 메서드 시작");
         // given
         String title = "junit5";
         String author = "겟인데어";
@@ -67,17 +71,19 @@ class BookRepositoryTest {
         assertEquals(author, books.get(0).getAuthor());
 
     }
+
     // 3. 책 한건보기
     @Test
     @DisplayName("책 한건 보기")
     public void book_find_test() {
+        System.out.println("3번 메서드 시작");
         // given
         String title = "junit5";
         String author = "겟인데어";
 
         // when
-//        Book bookPS = bookRepository.findById(1L).get();
-        Book bookPS = bookRepository.findById(3L).get();
+        System.out.println("error@@@@@@@@@@@@@@@@@@@@@@@@");
+        Book bookPS = bookRepository.findById(5L).get();
 
         // then
         assertEquals(title, bookPS.getTitle());
@@ -85,29 +91,15 @@ class BookRepositoryTest {
 
     }
 
-    // 4. 책 수정
-    @Test
-    @DisplayName("책 수정")
-    public void book_modify_test() {
-        // given
-        String title = "junit5";
-        String author = "겟인데어";
 
-        // when
-//        Book bookPS = bookRepository.findById(1L).get();
-        Book bookPS = bookRepository.findById(3L).get();
+    // 4. 책 삭제
 
-        // then
-        assertEquals(title, bookPS.getTitle());
-        assertEquals(author, bookPS.getAuthor());
-
-    }
-
-    // 5. 책 삭제
     @Sql("classpath:db/tableInit.sql")
     @Test
     @DisplayName("책 삭제")
     public void book_delete_test() {
+        System.out.println("4번 메서드 시작");
+
         // given
         Long id = 1L;
 
@@ -118,4 +110,35 @@ class BookRepositoryTest {
         assertFalse(bookRepository.findById(id).isPresent()); // 삭제를 했기때문에 값이 없어야 test 성
 
     }
+
+    // 5. 책 수정
+    @Sql("classpath:db/tableInit.sql")
+    @Test
+    @DisplayName("책 수정")
+    public void book_modify_test() {
+        System.out.println("5번 메서드 시작");
+
+        // given
+        Long id = 1L;
+        String title = "junit5";
+        String author = "메타코딩";
+        Book book = new Book(id, title, author);
+
+        // when
+        Book bookPS = bookRepository.save(book);
+
+//        bookRepository.findAll().
+//                forEach(book1 -> {
+//                    System.out.println(book1.getId());
+//                    System.out.println(book1.getTitle());
+//                    System.out.println(book1.getAuthor());
+//                    System.out.println("========================");
+//                });
+        // then
+
+        assertEquals(id, book.getId());
+        assertEquals(title, book.getTitle());
+        assertEquals(author, book.getAuthor());
+    }
+
 }
